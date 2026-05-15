@@ -1,0 +1,33 @@
+    // =========================
+    // BODY FAT PERCENTAGE
+    // =========================
+
+    @WebMethod(operationName = "calculateBodyFat")
+    public double calculateBodyFat(
+            @WebParam(name = "gender") String gender,
+            @WebParam(name = "age") int age,
+            @WebParam(name = "weight") double weight,
+            @WebParam(name = "height") double height) {
+
+        validatePositive(weight, "Weight");
+        validatePositive(height, "Height");
+
+        double bmi = weight / (height * height);
+
+        double bodyFat;
+
+        if (gender.equalsIgnoreCase("male")) {
+
+            bodyFat = (1.20 * bmi) + (0.23 * age) - 16.2;
+
+        } else if (gender.equalsIgnoreCase("female")) {
+
+            bodyFat = (1.20 * bmi) + (0.23 * age) - 5.4;
+
+        } else {
+
+            throw new IllegalArgumentException("Gender must be male or female");
+        }
+
+        return bodyFat;
+    }
